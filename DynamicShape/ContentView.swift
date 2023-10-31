@@ -9,6 +9,8 @@ import SwiftUI
 
 struct Triangle: Shape {
     
+    let a: Double
+    
     func path(in rect: CGRect) -> Path {
         
         var path = Path()
@@ -16,7 +18,7 @@ struct Triangle: Shape {
         path.move(to: CGPoint(x: rect.minX, y: rect.maxY))
         
         path.addLine(to: CGPoint(x: rect.maxX, y: rect.maxY))
-        path.addLine(to: CGPoint(x: rect.minX, y: rect.minY))
+        path.addLine(to: CGPoint(x: rect.maxX * a, y: rect.minY))
         path.addLine(to: CGPoint(x: rect.minX, y: rect.maxY))
         
         return path
@@ -27,12 +29,17 @@ struct Triangle: Shape {
 
 struct ContentView: View {
     
+    @State var a: Double = 0.0
+    
     var body: some View {
 
         VStack {
-            Triangle()
+            Triangle(a: a)
                 .fill(.black)
                 .aspectRatio(1.0, contentMode: .fit)
+                .padding()
+            
+            Slider(value: $a, in: 0...1)
                 .padding()
         }
         
